@@ -1,6 +1,7 @@
 import { Contact } from './../../models/contact.model';
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import {Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
 import { FormsModule} from '@angular/forms';
+import {ContactService} from '../../services/contact.service';
 
 @Component({
   selector: 'app-contact',
@@ -14,9 +15,10 @@ export class ContactComponent implements OnInit {
   isFavorite: boolean;
 
   @Input() contact: Contact;
-  @Output() onsubmit: EventEmitter<Contact> = new EventEmitter();
+  @Input() index: number;
+  @Output() Update: EventEmitter<any> = new EventEmitter();
 
-  constructor() { }
+  constructor(private service: ContactService) { }
 
   ngOnInit() {
     this.name = 'John Doe';
@@ -25,12 +27,7 @@ export class ContactComponent implements OnInit {
     this.isFavorite = false;
   }
 
-  onClick(): void {
-    console.log('Button is clicked, status of favorite is: ' + this.isFavorite);
+  toggleFavorite(id: string, isFavorite: boolean): void {
+        this.service.updateContact(id, {isFvorite: isFavorite}).subscribe(() => this.Update.emit);
   }
-
-  submit(): void {
-    this.onsubmit.emit(this.contact);
-  }
-
 }

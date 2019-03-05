@@ -1,7 +1,12 @@
-<!--The content below is only a placeholder and can be replaced.-->
+    <!--The content below is only a placeholder and can be replaced.-->
 <header>
   <h1>Contacts</h1>
 </header>
 <main>
-  <app-contact *ngFor="let contact of contactList;"  [contact]="contact" ></app-contact>
+  <app-contact *ngFor="let contact of contactList; let i = index"
+                [contact]="contact"
+                (Update)="handleUpdate($event)">
+  </app-contact>
+  <app-contact-form (onsubmit)="createContact($event)"></app-contact-form>
+
 </main>
